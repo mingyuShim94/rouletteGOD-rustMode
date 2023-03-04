@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "roulette",
+    "slug": "roulette",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "roulette"
+}
