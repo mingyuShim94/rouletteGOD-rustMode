@@ -1,21 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
+import React, { useEffect, useState } from "react";
+import Roulette from "./Roulette";
+import mobileAds from "react-native-google-mobile-ads";
+import SplashScreen from "react-native-splash-screen";
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [appIsReady, setAppIsReady] = useState(false);
+  useEffect(() => {
+    async function prepare() {
+      try {
+        mobileAds()
+          .initialize()
+          .then((adapterStatuses) => {
+            // Initialization complete!
+          });
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+        SplashScreen.hide();
+      }
+    }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    prepare();
+  }, []);
+  if (!appIsReady) {
+    return null;
+  }
+  return <Roulette />;
+}
